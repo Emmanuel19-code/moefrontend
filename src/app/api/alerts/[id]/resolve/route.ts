@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 
 export async function PATCH(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Record<string, string> }
 ) {
   try {
     const alertId = parseInt(context.params.id)
