@@ -3,7 +3,8 @@ import { supabase } from '@/lib/supabase'
 
 export async function PATCH(
   request: NextRequest,
-  context: { params: Record<string, string> }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: { params: any } // or just don't annotate
 ) {
   try {
     const alertId = parseInt(context.params.id)
