@@ -29,7 +29,7 @@ export function QuickActions({ onTabChange }: QuickActionsProps) {
             toast({
               title: "Sync Failed",
               description: "Unable to sync data. Please try again.",
-              variant: "destructive",
+              //variant: "destructive",
             });
           }
         });
