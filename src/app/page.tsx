@@ -13,10 +13,9 @@ import { TransformerDetailModal } from "@/components/TransforDetailModal";
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
 import dynamic from "next/dynamic";
 
-const TransformerMap = dynamic(() =>
-  import("@/components/TransformerMap").then(mod => mod.TransformerMap),
-  { ssr: false }
-);
+const TransformerMap = dynamic(() => import("@/components/TransformerMap"), {
+  ssr: false,
+});
 
 
 export default function Dashboard() {
