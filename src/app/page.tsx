@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Sidebar } from "@/components/Sidebar";
 import { StatsCards } from "@/components/StatsCards";
-
 import { AlertsList } from "@/components/AlertsList";
 import { ConditionSummary } from "@/components/ConditionSummary";
 import { QuickActions } from "@/components/QuickActions";

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import {
   MapContainer,
@@ -29,6 +28,7 @@ interface Props {
 }
 
 const TransformerMap = ({ transformers }: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // ✅ Fix Leaflet default icon path issue inside useEffect
