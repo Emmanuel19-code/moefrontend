@@ -3,6 +3,7 @@ import { apiRequest } from "@/lib/queryClient";
 import type { TransformerStats } from "@/lib/types";
 import { Alert,Transformer } from "@/shared/schema";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toCamelCaseTransformer(raw: any): Transformer {
   return {
     id: raw.id,
