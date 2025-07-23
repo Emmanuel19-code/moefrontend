@@ -37,7 +37,7 @@ export function SettingsView() {
         toast({
           title: "Sync Test Failed",
           description: "Unable to connect to ArcGIS services. Please check configuration.",
-          variant: "destructive",
+          //variant: "destructive",
         });
       }
     });
