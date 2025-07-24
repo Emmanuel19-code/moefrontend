@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { pgTable, text, serial, integer, boolean, timestamp, real } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -89,23 +90,23 @@ export const insertTransformerSchema = createInsertSchema(transformers).omit({
   id: true,
   creationDate: true,
   lastUpdateDate: true,
-});
+}) as unknown as z.ZodType<any, any, any>;
 
 export const insertAlertSchema = createInsertSchema(alerts).omit({
   id: true,
   createdAt: true,
-});
+}) as unknown as z.ZodType<any, any, any>;
 
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
   lastLoginAt: true,
-});
+}) as unknown as z.ZodType<any, any, any>;
 
 export const insertSubscriptionSchema = createInsertSchema(subscriptions).omit({
   id: true,
   createdAt: true,
-});
+}) as unknown as z.ZodType<any, any, any>;
 
 export type InsertTransformer = z.infer<typeof insertTransformerSchema>;
 export type Transformer = typeof transformers.$inferSelect;

@@ -46,8 +46,8 @@ export const arcgisService = {
       accessibilityIssues: attrs.Accessibility_Issues_eg_overgro === "Yes",
       unauthorizedConnections: attrs.Presence_of_Unauthorized_Connec === "Yes",
       assessmentDate: attrs.Date_and_Time ? new Date(attrs.Date_and_Time) : null,
-      //creationDate: attrs.CreationDate ? new Date(attrs.CreationDate) : null,
-      //lastUpdateDate: attrs.EditDate ? new Date(attrs.EditDate) : null,
+      creationDate: attrs.creation_date ? new Date(attrs.creation_date) : null,
+      lastUpdateDate: attrs.last_update_date ? new Date(attrs.last_update_date) : null,
     };
   },
 

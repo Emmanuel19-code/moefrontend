@@ -25,6 +25,7 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleTransformerSelect = (transformerId: number) => {
+    
     setSelectedTransformerId(transformerId);
     setIsModalOpen(true);
   };

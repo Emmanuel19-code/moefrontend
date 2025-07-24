@@ -21,6 +21,15 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   manifest: "/manifest.json",
+  icons: {
+  icon: [
+    {
+      url: "/icons/icon-512x512.png",
+      type: "image/png",
+      sizes: "512x512"
+    }
+  ]
+},
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

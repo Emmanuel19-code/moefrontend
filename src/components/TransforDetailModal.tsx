@@ -1,10 +1,22 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTransformer, useTransformerAlerts } from "@/hooks/use-transformers";
 import { formatDistanceToNow } from "date-fns";
-import { Edit, Calendar, Download, MapPin, Zap, AlertTriangle } from "lucide-react";
+import {
+  Edit,
+  Calendar,
+  Download,
+  MapPin,
+  Zap,
+} from "lucide-react";
 
 interface TransformerDetailModalProps {
   transformerId: number | null;
@@ -12,40 +24,60 @@ interface TransformerDetailModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function TransformerDetailModal({ 
-  transformerId, 
-  open, 
-  onOpenChange 
+export function TransformerDetailModal({
+  transformerId,
+  open,
+  onOpenChange,
 }: TransformerDetailModalProps) {
   const { data: transformer, isLoading } = useTransformer(transformerId || 0);
+  console.log("this is transformer",transformer)
   const { data: alerts = [] } = useTransformerAlerts(transformerId || 0);
-  console.log(`transformer ${transformerId}`,transformer)
-  console.log("alerts ",alerts)
-  if (!transformerId) return null;
-
+  if (!transformerId) console.log(`could not find ${transformerId}`);
+  const transformerAlert = alerts.find((alert) => alert.id === transformerId);
+  const transformerDetail = transformer?.find(
+    (transformerDetail: any) => transformerDetail.id === transformerId
+  );
+  console.log("transformerDetail", transformerAlert);
   const getConditionBadge = (condition: string | null) => {
     if (!condition) return <Badge variant="secondary">Unknown</Badge>;
-    
+
     switch (condition.toLowerCase()) {
-      case 'good':
-        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Good</Badge>;
-      case 'fair':
-        return <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">Fair</Badge>;
-      case 'poor':
-        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Poor</Badge>;
+      case "good":
+        return (
+          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+            Good
+          </Badge>
+        );
+      case "fair":
+        return (
+          <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">
+            Fair
+          </Badge>
+        );
+      case "poor":
+        return (
+          <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+            Poor
+          </Badge>
+        );
       default:
         return <Badge variant="secondary">{condition}</Badge>;
     }
   };
 
-  const getBooleanBadge = (value: boolean | null, trueLabel = "Yes", falseLabel = "No") => {
+  const getBooleanBadge = (
+    value: boolean | null,
+    trueLabel = "Yes",
+    falseLabel = "No"
+  ) => {
     if (value === null) return <Badge variant="secondary">Unknown</Badge>;
-    
+
     return (
-      <Badge 
-        className={value 
-          ? "bg-red-100 text-red-800 hover:bg-red-100" 
-          : "bg-green-100 text-green-800 hover:bg-green-100"
+      <Badge
+        className={
+          value
+            ? "bg-red-100 text-red-800 hover:bg-red-100"
+            : "bg-green-100 text-green-800 hover:bg-green-100"
         }
       >
         {value ? trueLabel : falseLabel}
@@ -55,21 +87,24 @@ export function TransformerDetailModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Zap className="h-5 w-5 text-ecg-blue" />
             <div>
               <h2 className="text-xl font-semibold text-gray-900">
-                {transformer?.transformerId || `Transformer ${transformerId}`}
+                {transformerDetail?.transformer_id ||
+                  `Transformer ${transformerId}`}
               </h2>
               <p className="text-sm text-gray-500 font-normal">
-                {transformer?.location || transformer?.address || 'Location not specified'}
+                {transformer?.location ||
+                  transformerDetail?.address ||
+                  "Location not specified"}
               </p>
             </div>
           </DialogTitle>
         </DialogHeader>
-        
+
         {isLoading ? (
           <div className="p-6 space-y-4">
             {[...Array(3)].map((_, i) => (
@@ -79,10 +114,13 @@ export function TransformerDetailModal({
             ))}
           </div>
         ) : transformer ? (
-          <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(90vh - 120px)' }}>
+          <div
+            className="overflow-y-auto custom-scrollbar"
+            style={{ maxHeight: "calc(90vh - 120px)" }}
+          >
             <div className="p-6 space-y-6">
               {/* Active Alerts */}
-              {alerts.filter(a => !a.isResolved).length > 0 && (
+              {/*alerts.filter((a) => !a.isResolved).length > 0 && (
                 <Card className="border-red-200 bg-red-50">
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center space-x-2 text-red-800">
@@ -91,17 +129,23 @@ export function TransformerDetailModal({
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2">
-                    {alerts.filter(a => !a.isResolved).map((alert) => (
-                      <div key={alert.id} className="flex items-center justify-between text-sm">
-                        <span className="text-red-700">{alert.message}</span>
-                        <Badge variant="destructive" className="text-xs">
-                          {alert.severity}
-                        </Badge>
-                      </div>
-                    ))}
+                    {alerts
+                      .filter((a) => !a.isResolved)
+                      .map((alert) => (
+                        <div
+                          key={alert.id}
+                          className="flex items-center justify-between text-sm"
+                        >
+                          <span className="text-red-700">{alert.message}</span>
+                          <Badge variant="destructive" className="text-xs">
+                            {alert.severity}
+                          </Badge>
+                        </div>
+                      ))}
                   </CardContent>
                 </Card>
-              )}
+              )*/}
+             
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Basic Information */}
@@ -112,56 +156,68 @@ export function TransformerDetailModal({
                   <CardContent className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Transformer ID:</span>
-                      <span className="font-medium">{transformer.transformerId || 'Not specified'}</span>
+                      <span className="font-medium">
+                        {transformerDetail?.transformer_id || "Not specified"}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Type:</span>
-                      <span className="font-medium">{transformer.type || 'Not specified'}</span>
+                      <span className="font-medium">
+                        {transformerDetail.type || "Not specified"}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Capacity:</span>
-                      <span className="font-medium">{transformer.capacity || 'Not specified'}</span>
+                      <span className="font-medium">
+                        {transformerDetail.capacity || "Not specified"}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Manufacturer:</span>
-                      <span className="font-medium">{transformer.manufacturer || 'Not specified'}</span>
+                      <span className="font-medium">
+                        {transformerDetail.manufacturer || "Not specified"}
+                      </span>
                     </div>
-                    {(transformer.latitude && transformer.longitude) && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600">Coordinates:</span>
-                        <span className="font-medium text-xs">
-                          {transformer.latitude.toFixed(4)}°N, {transformer.longitude.toFixed(4)}°W
-                        </span>
-                      </div>
-                    )}
+                    {transformerDetail.latitude &&
+                      transformerDetail.longitude && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600">Coordinates:</span>
+                          <span className="font-medium text-xs">
+                            {transformerDetail.latitude.toFixed(4)}°N,{" "}
+                            {transformerDetail.longitude.toFixed(4)}°W
+                          </span>
+                        </div>
+                      )}
                   </CardContent>
                 </Card>
 
                 {/* Physical Condition */}
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Physical Condition</CardTitle>
+                    <CardTitle className="text-lg">
+                      Physical Condition
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Overall Condition:</span>
-                      {getConditionBadge(transformer.physicalCondition)}
+                      <span className="text-gray-600 text-sm">Overall Condition:</span>
+                      {getConditionBadge(transformerDetail.physical_condition)}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Oil Leakage:</span>
-                      {getBooleanBadge(transformer.oilLeakage)}
+                      <span className="text-gray-600 text-sm">Oil Leakage:</span>
+                      {getBooleanBadge(transformerDetail.oil_leakage)}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Rust/Corrosion:</span>
-                      {getBooleanBadge(transformer.rustCorrosion)}
+                      <span className="text-gray-600 text-sm">Rust/Corrosion:</span>
+                      {getBooleanBadge(transformerDetail.rust_corrosion)}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">External Damage:</span>
-                      {getBooleanBadge(transformer.externalDamage)}
+                      <span className="text-gray-600 text-sm">External Damage:</span>
+                      {getBooleanBadge(transformerDetail.external_damage)}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Overheating Signs:</span>
-                      {getBooleanBadge(transformer.overheatingSigns)}
+                      <span className="text-gray-600 text-sm">Overheating Signs:</span>
+                      {getBooleanBadge(transformerDetail.overheating_signs)}
                     </div>
                   </CardContent>
                 </Card>
@@ -169,26 +225,41 @@ export function TransformerDetailModal({
                 {/* Safety & Accessibility */}
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Safety & Accessibility</CardTitle>
+                    <CardTitle className="text-lg">
+                      Safety & Accessibility
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Safety Signage:</span>
-                      {getBooleanBadge(transformer.safetySignagePresent, "Present", "Missing")}
+                      {getBooleanBadge(
+                        transformerDetail.safety_signage_present,
+                        "Present",
+                        "Missing"
+                      )}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Clearance from Buildings:</span>
+                      <span className="text-gray-600">
+                        Clearance from Buildings:
+                      </span>
                       <span className="font-medium">
-                        {transformer.clearanceFromBuildings || 'Not assessed'}
+                        {transformerDetail.clearance_from_buildings ||
+                          "Not assessed"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Accessibility Issues:</span>
-                      {getBooleanBadge(transformer.accessibilityIssues)}
+                      <span className="text-gray-600">
+                        Accessibility Issues:
+                      </span>
+                      {getBooleanBadge(transformerDetail.accessibility_issues)}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Unauthorized Connections:</span>
-                      {getBooleanBadge(transformer.unauthorizedConnections)}
+                      <span className="text-gray-600">
+                        Unauthorized Connections:
+                      </span>
+                      {getBooleanBadge(
+                        transformerDetail.unauthorized_connections
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -202,23 +273,31 @@ export function TransformerDetailModal({
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Structure Type:</span>
                       <span className="font-medium">
-                        {transformer.supportStructureType || 'Not specified'}
+                        {transformerDetail.support_structure_type ||
+                          "Not specified"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Structure Condition:</span>
-                      {getConditionBadge(transformer.supportStructureCondition)}
+                      <span className="text-gray-600">
+                        Structure Condition:
+                      </span>
+                      {getConditionBadge(
+                        transformerDetail.support_structure_condition
+                      )}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Bushings Condition:</span>
                       <span className="font-medium">
-                        {transformer.bushingsCondition || 'Not assessed'}
+                        {transformerDetail.bushings_condition || "Not assessed"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Insulators Condition:</span>
+                      <span className="text-gray-600">
+                        Insulators Condition:
+                      </span>
                       <span className="font-medium">
-                        {transformer.insulatorsCondition || 'Not assessed'}
+                        {transformerDetail.insulators_condition ||
+                          "Not assessed"}
                       </span>
                     </div>
                   </CardContent>
@@ -232,35 +311,43 @@ export function TransformerDetailModal({
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {transformer.assessmentDate && (
+                    {transformerDetail.assessment_date && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">
-                          {transformer.assessmentDate 
-                            ? formatDistanceToNow(new Date(transformer.assessmentDate), { addSuffix: true })
-                            : 'Date not available'
-                          }
+                          {transformerDetail.assessment_date
+                            ? formatDistanceToNow(
+                                new Date(transformerDetail.assessment_date),
+                                { addSuffix: true }
+                              )
+                            : "Date not available"}
                         </span>
-                        <span className="text-gray-900">Field Assessment Completed</span>
+                        <span className="text-gray-900">
+                          Field Assessment Completed
+                        </span>
                       </div>
                     )}
-                    {transformer.lastUpdateDate && (
+                    {transformerDetail.last_update_date && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">
-                          {transformer.lastUpdateDate 
-                            ? formatDistanceToNow(new Date(transformer.lastUpdateDate), { addSuffix: true })
-                            : 'Date not available'  
-                          }
+                          {transformerDetail.last_update_date
+                            ? formatDistanceToNow(
+                                new Date(transformerDetail.last_update_date),
+                                { addSuffix: true }
+                              )
+                            : "Date not available"}
                         </span>
                         <span className="text-gray-900">Data Last Updated</span>
                       </div>
                     )}
-                    {transformer.creationDate && (
+                    {transformerDetail.creation_date && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">
-                          {transformer.creationDate 
-                            ? formatDistanceToNow(new Date(transformer.creationDate), { addSuffix: true })
-                            : 'Date not available'
-                          }
+                          {transformerDetail.creation_date
+                            ? formatDistanceToNow(
+                                new Date(transformerDetail.creation_date),
+                                { addSuffix: true }
+                              )
+                            : "Date not available"}
                         </span>
                         <span className="text-gray-900">Record Created</span>
                       </div>
@@ -283,7 +370,7 @@ export function TransformerDetailModal({
                   <Download className="mr-2 h-4 w-4" />
                   Export Report
                 </Button>
-                {transformer.latitude && transformer.longitude && (
+                {transformerDetail.latitude && transformerDetail.longitude && (
                   <Button variant="outline">
                     <MapPin className="mr-2 h-4 w-4" />
                     View on Map

@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 
 export function StatsCards() {
   const { data: stats, isLoading } = useTransformerStats();
-
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -59,7 +58,7 @@ export function StatsCards() {
     },
     {
       title: "Critical Issues",
-      value: stats.critical,
+      value: stats.poor,
       icon: XCircle,
       gradient: "from-red-500 to-red-600",
       textColor: "text-red-100",

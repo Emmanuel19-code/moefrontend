@@ -149,6 +149,7 @@ export function TransformerMap({ onTransformerSelect }: TransformerMapProps) {
       // Add click handler
       marker.on("click", () => {
         if (onTransformerSelect) {
+          
           onTransformerSelect(transformer.id);
         }
       });
