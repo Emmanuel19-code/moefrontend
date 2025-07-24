@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Dialog,
@@ -37,7 +38,7 @@ export function TransformerDetailModal({
   const transformerDetail = transformer?.find(
     (transformerDetail: any) => transformerDetail.id === transformerId
   );
-  console.log("transformerDetail", transformerAlert);
+  console.log(transformerDetail)
   const getConditionBadge = (condition: string | null) => {
     if (!condition) return <Badge variant="secondary">Unknown</Badge>;
 
@@ -93,7 +94,7 @@ export function TransformerDetailModal({
             <Zap className="h-5 w-5 text-ecg-blue" />
             <div>
               <h2 className="text-xl font-semibold text-gray-900">
-                {transformerDetail?.transformer_id ||
+                {transformerDetail?.transformerId ||
                   `Transformer ${transformerId}`}
               </h2>
               <p className="text-sm text-gray-500 font-normal">
@@ -157,34 +158,34 @@ export function TransformerDetailModal({
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Transformer ID:</span>
                       <span className="font-medium">
-                        {transformerDetail?.transformer_id || "Not specified"}
+                        {transformerDetail?.transformerId || "Not specified"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Type:</span>
                       <span className="font-medium">
-                        {transformerDetail.type || "Not specified"}
+                        {transformerDetail?.type || "Not specified"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Capacity:</span>
                       <span className="font-medium">
-                        {transformerDetail.capacity || "Not specified"}
+                        {transformerDetail?.capacity || "Not specified"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Manufacturer:</span>
                       <span className="font-medium">
-                        {transformerDetail.manufacturer || "Not specified"}
+                        {transformerDetail?.manufacturer || "Not specified"}
                       </span>
                     </div>
-                    {transformerDetail.latitude &&
-                      transformerDetail.longitude && (
+                    {transformerDetail?.latitude &&
+                      transformerDetail?.longitude && (
                         <div className="flex justify-between items-center">
                           <span className="text-gray-600">Coordinates:</span>
                           <span className="font-medium text-xs">
-                            {transformerDetail.latitude.toFixed(4)}°N,{" "}
-                            {transformerDetail.longitude.toFixed(4)}°W
+                            {transformerDetail?.latitude.toFixed(4)}°N,{" "}
+                            {transformerDetail?.longitude.toFixed(4)}°W
                           </span>
                         </div>
                       )}
@@ -201,23 +202,23 @@ export function TransformerDetailModal({
                   <CardContent className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm">Overall Condition:</span>
-                      {getConditionBadge(transformerDetail.physical_condition)}
+                      {getConditionBadge(transformerDetail?.physicalCondition)}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm">Oil Leakage:</span>
-                      {getBooleanBadge(transformerDetail.oil_leakage)}
+                      {getBooleanBadge(transformerDetail?.oilLeakage)}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm">Rust/Corrosion:</span>
-                      {getBooleanBadge(transformerDetail.rust_corrosion)}
+                      {getBooleanBadge(transformerDetail?.rustCorrosion)}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm">External Damage:</span>
-                      {getBooleanBadge(transformerDetail.external_damage)}
+                      {getBooleanBadge(transformerDetail?.externalDamage)}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm">Overheating Signs:</span>
-                      {getBooleanBadge(transformerDetail.overheating_signs)}
+                      {getBooleanBadge(transformerDetail?.overheatingSigns)}
                     </div>
                   </CardContent>
                 </Card>
@@ -233,7 +234,7 @@ export function TransformerDetailModal({
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Safety Signage:</span>
                       {getBooleanBadge(
-                        transformerDetail.safety_signage_present,
+                        transformerDetail?.safetySignagePresent,
                         "Present",
                         "Missing"
                       )}
@@ -243,7 +244,7 @@ export function TransformerDetailModal({
                         Clearance from Buildings:
                       </span>
                       <span className="font-medium">
-                        {transformerDetail.clearance_from_buildings ||
+                        {transformerDetail?.clearanceFromBuildings ||
                           "Not assessed"}
                       </span>
                     </div>
@@ -251,14 +252,14 @@ export function TransformerDetailModal({
                       <span className="text-gray-600">
                         Accessibility Issues:
                       </span>
-                      {getBooleanBadge(transformerDetail.accessibility_issues)}
+                      {getBooleanBadge(transformerDetail?.accessibilityIssues)}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">
                         Unauthorized Connections:
                       </span>
                       {getBooleanBadge(
-                        transformerDetail.unauthorized_connections
+                        transformerDetail?.unauthorizedConnections
                       )}
                     </div>
                   </CardContent>
@@ -273,7 +274,7 @@ export function TransformerDetailModal({
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Structure Type:</span>
                       <span className="font-medium">
-                        {transformerDetail.support_structure_type ||
+                        {transformerDetail?.supportStructureType ||
                           "Not specified"}
                       </span>
                     </div>
@@ -282,13 +283,13 @@ export function TransformerDetailModal({
                         Structure Condition:
                       </span>
                       {getConditionBadge(
-                        transformerDetail.support_structure_condition
+                        transformerDetail?.supportStructureCondition
                       )}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Bushings Condition:</span>
                       <span className="font-medium">
-                        {transformerDetail.bushings_condition || "Not assessed"}
+                        {transformerDetail?.bushingsCondition || "Not assessed"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -296,7 +297,7 @@ export function TransformerDetailModal({
                         Insulators Condition:
                       </span>
                       <span className="font-medium">
-                        {transformerDetail.insulators_condition ||
+                        {transformerDetail?.insulatorsCondition ||
                           "Not assessed"}
                       </span>
                     </div>
@@ -311,12 +312,12 @@ export function TransformerDetailModal({
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {transformerDetail.assessment_date && (
+                    {transformerDetail?.assessmentDate && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">
-                          {transformerDetail.assessment_date
+                          {transformerDetail?.assessmentDate
                             ? formatDistanceToNow(
-                                new Date(transformerDetail.assessment_date),
+                                new Date(transformerDetail?.assessmentDate),
                                 { addSuffix: true }
                               )
                             : "Date not available"}
@@ -326,12 +327,12 @@ export function TransformerDetailModal({
                         </span>
                       </div>
                     )}
-                    {transformerDetail.last_update_date && (
+                    {transformerDetail?.lastUpdateDate && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">
-                          {transformerDetail.last_update_date
+                          {transformerDetail?.lastUpdateDate
                             ? formatDistanceToNow(
-                                new Date(transformerDetail.last_update_date),
+                                new Date(transformerDetail?.lastUpdateDate),
                                 { addSuffix: true }
                               )
                             : "Date not available"}
@@ -339,12 +340,12 @@ export function TransformerDetailModal({
                         <span className="text-gray-900">Data Last Updated</span>
                       </div>
                     )}
-                    {transformerDetail.creation_date && (
+                    {transformerDetail?.creationDate && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">
-                          {transformerDetail.creation_date
+                          {transformerDetail?.creationDate
                             ? formatDistanceToNow(
-                                new Date(transformerDetail.creation_date),
+                                new Date(transformerDetail?.creationDate),
                                 { addSuffix: true }
                               )
                             : "Date not available"}
@@ -370,7 +371,7 @@ export function TransformerDetailModal({
                   <Download className="mr-2 h-4 w-4" />
                   Export Report
                 </Button>
-                {transformerDetail.latitude && transformerDetail.longitude && (
+                {transformerDetail?.latitude && transformerDetail?.longitude && (
                   <Button variant="outline">
                     <MapPin className="mr-2 h-4 w-4" />
                     View on Map

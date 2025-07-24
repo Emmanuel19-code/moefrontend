@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import type { TransformerStats } from "@/lib/types";
@@ -49,11 +50,15 @@ export function useTransformers() {
   });
 }
 
-export function useTransformer(id: number) {
-  return useQuery<Transformer>({
-    queryKey: ["/api/transformers", id],
-    enabled: !!id,
-  });
+export function useTransformer(id: number | null) {
+  return useQuery<Transformer[]>({
+    queryKey: ["/api/transformers"],
+    queryFn: async () => {
+      const res = await fetch("/api/transformers");
+      const data = await res.json();
+      return data.map(toCamelCaseTransformer);
+    }
+  })
 }
 
 export function useTransformerAlerts(transformerId: number) {
