@@ -39,7 +39,7 @@ export function TransformerDetailModal({
     (transformerDetail: any) => transformerDetail.id === transformerId
   );
   console.log(transformerDetail)
-  const getConditionBadge = (condition: string | null) => {
+  const getConditionBadge = (condition: string | null ) => {
     if (!condition) return <Badge variant="secondary">Unknown</Badge>;
 
     switch (condition.toLowerCase()) {
@@ -67,7 +67,7 @@ export function TransformerDetailModal({
   };
 
   const getBooleanBadge = (
-    value: boolean | null,
+    value: boolean | null | undefined,
     trueLabel = "Yes",
     falseLabel = "No"
   ) => {
@@ -98,7 +98,7 @@ export function TransformerDetailModal({
                   `Transformer ${transformerId}`}
               </h2>
               <p className="text-sm text-gray-500 font-normal">
-                {transformer?.location ||
+                {transformerDetail?.location ||
                   transformerDetail?.address ||
                   "Location not specified"}
               </p>
@@ -202,7 +202,7 @@ export function TransformerDetailModal({
                   <CardContent className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm">Overall Condition:</span>
-                      {getConditionBadge(transformerDetail?.physicalCondition)}
+                      {getConditionBadge(`${transformerDetail?.physicalCondition}`)}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm">Oil Leakage:</span>
@@ -283,7 +283,7 @@ export function TransformerDetailModal({
                         Structure Condition:
                       </span>
                       {getConditionBadge(
-                        transformerDetail?.supportStructureCondition
+                        `${transformerDetail?.supportStructureCondition}`
                       )}
                     </div>
                     <div className="flex justify-between items-center">
